@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thor: Ragnarok</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Mono:wght@400;500&family=Roboto+Condensed:wght@400&family=Roboto:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Three.js ES module imports -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- ===== PRELOADER ===== -->
+    <div id="preloader" class="preloader">
+      <div class="preloader__inner">
+        <img
+          class="preloader__logo"
+          src="assets/hammer-logo.png"
+          alt="Thor Hammer"
+        />
+        <div class="preloader__bar-wrap">
+          <div class="preloader__bar">
+            <div class="preloader__fill" id="preloaderFill"></div>
+          </div>
+          <span class="preloader__percent" id="preloaderPercent">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SITE WRAPPER ===== -->
+    <div id="site" class="site">
+      <!-- ===== HEADER ===== -->
+      <header class="header">
+        <div class="header__inner container">
+          <a href="#" class="header__logo">
+            <img
+              src="assets/hammer-logo.png"
+              alt="Thor"
+            />
+          </a>
+          <nav class="header__nav" id="headerNav">
+            <ul class="header__nav-list">
+              <li><a href="#trailer" class="header__nav-link">TRAILER</a></li>
+              <li><a href="#sobre" class="header__nav-link">SOBRE</a></li>
+              <li>
+                <a href="#ingressos" class="header__nav-link">INGRESSOS</a>
+              </li>
+            </ul>
+          </nav>
+          <button class="header__burger" id="burgerBtn" aria-label="Abrir menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- ===== HERO ===== -->
+      <section class="hero">
+        <div class="hero__bg">
+          <img
+            src="assets/thor-bg.webp"
+            alt="Thor background"
+            class="hero__bg-img"
+          />
+          <!-- mobile bg -->
+          <img
+            src="assets/thor-bg.webp"
+            alt="Thor background mobile"
+            class="hero__bg-img hero__bg-img--mobile"
+          />
+          <!-- async bg video — loaded after page ready, fades in over the image -->
+          <video
+            id="heroVideo"
+            class="hero__bg-video"
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+          ></video>
+          <div class="hero__bg-overlay"></div>
+        </div>
+        <div class="hero__content container">
+          <div class="hero__text">
+            <h1 class="hero__title">Ragnarok</h1>
+            <p class="hero__subtitle">
+              Ele não é um herói porque escolheu ser. Ele é um herói porque não
+              existe outra opção.
+            </p>
+          </div>
+          <div class="hero__actions">
+            <a href="#ingressos" class="btn btn--primary"
+              >GARANTA SEU INGRESSO</a
+            >
+            <a href="#trailer" class="btn btn--ghost">ASSISTA AO TRAILER</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TRAILER ===== -->
+      <section class="trailer-section" id="trailer">
+        <div class="container">
+          <div class="trailer-player" id="trailerPlayer">
+            <!-- Video (muted ambient loop by default) -->
+            <video
+              id="trailerVideo"
+              class="trailer-player__video"
+              src="assets/trailer.mp4"
+              muted
+              loop
+              playsinline
+              autoplay
+              preload="auto"
+            ></video>
+
+            <!-- Ambient overlay + large initial play button -->
+            <div class="trailer-ambient" id="trailerAmbient">
+              <div class="trailer-ambient__overlay"></div>
+              <button
+                class="trailer-ambient__play"
+                id="trailerPlayBtn"
+                aria-label="Reproduzir trailer"
+              >
+                <img
+                  src="assets/play-btn.png"
+                  alt=""
+                  class="trailer-ambient__play-icon"
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
+
+            <!-- Custom player controls (visible only after user activates player) -->
+            <div class="player-controls" id="playerControls">
+              <div class="player-controls__gradient"></div>
+              <div class="player-controls__body">
+                <!-- Seek bar -->
+                <div class="player-controls__progress">
+                  <div class="player-controls__track">
+                    <div
+                      class="player-controls__played"
+                      id="playerPlayed"
+                    ></div>
+                  </div>
+                  <input
+                    type="range"
+                    class="player-controls__seek"
+                    id="playerSeek"
+                    min="0"
+                    max="100"
+                    value="0"
+                    step="0.01"
+                    aria-label="Progresso do vídeo"
+                  />
+                </div>
+
+                <!-- Bottom row -->
+                <div class="player-controls__row">
+                  <div class="player-controls__left">
+                    <!-- Play / Pause -->
+                    <button
+                      class="player-controls__btn"
+                      id="playerPlayPause"
+                      aria-label="Play/Pause"
+                    >
+                      <svg
+                        class="player-icon player-icon--play"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                      <svg
+                        class="player-icon player-icon--pause"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <rect x="6" y="5" width="4" height="14" />
+                        <rect x="14" y="5" width="4" height="14" />
+                      </svg>
+                    </button>
+
+                    <!-- Volume -->
+                    <div class="player-controls__vol-wrap">
+                      <button
+                        class="player-controls__btn"
+                        id="playerMute"
+                        aria-label="Silenciar/Ativar som"
+                      >
+                        <svg
+                          class="player-icon player-icon--vol-on"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"
+                          />
+                        </svg>
+                        <svg
+                          class="player-icon player-icon--vol-off"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                          />
+                        </svg>
+                      </button>
+                      <input
+                        type="range"
+                        class="player-controls__vol-slider"
+                        id="playerVolume"
+                        min="0"
+                        max="1"
+                        value="1"
+                        step="0.01"
+                        aria-label="Volume"
+                      />
+                    </div>
+
+                    <!-- Time -->
+                    <span class="player-controls__time" id="playerTime"
+                      >0:00 / 0:00</span
+                    >
+                  </div>
+
+                  <div class="player-controls__right">
+                    <!-- Fullscreen -->
+                    <button
+                      class="player-controls__btn"
+                      id="playerFullscreen"
+                      aria-label="Tela cheia"
+                    >
+                      <svg
+                        class="player-icon player-icon--expand"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"
+                        />
+                      </svg>
+                      <svg
+                        class="player-icon player-icon--compress"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <!-- /row -->
+              </div>
+              <!-- /body -->
+            </div>
+            <!-- /player-controls -->
+          </div>
+          <!-- /trailer-player -->
+        </div>
+      </section>
+
+      <!-- ===== LORE ===== -->
+
+      <section class="lore" id="sobre">
+        <div class="divMartelo"></div>
+        <div class="lore__bg">
+          <img
+            src="assets/bg-secoes.webp"
+            alt=""
+            class="lore__bg-img"
+            aria-hidden="true"
+          />
+          <div class="lore__bg-overlay"></div>
+        </div>
+
+        <div class="container lore__inner">
+          <p class="lore__quote lore__quote--left" data-aos="fade-right">
+            Thor Odinson não é apenas um guerreiro. É o filho de Asgard, o
+            portador do Mjolnir, o trovão que ecoa pelos Nove Reinos.
+          </p>
+          <p class="lore__quote lore__quote--right" data-aos="fade-left">
+            Quando a escuridão ameaça consumir tudo, não há exército, não há
+            estratégia
+          </p>
+          <p class="lore__quote lore__quote--center" data-aos="fade-up">
+            Há apenas ele, o martelo, e a tempestade que carrega dentro de si.
+          </p>
+        </div>
+      </section>
+
+      <!-- ===== CTA ===== -->
+      <section class="cta-section" id="ingressos">
+        <div class="cta-section__bg">
+          <img
+            src="assets/footer-bg.webp"
+            class="cta-section__bg-img"
+          />
+          <!-- async bg video — loaded after page ready, fades in over the image -->
+          <video
+            id="ctaVideo"
+            class="cta-section__bg-video"
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-hidden="true"
+          ></video>
+          <div class="cta-section__bg-gradient"></div>
+        </div>
+        <div class="container cta-section__inner">
+          <div class="cta-section__content">
+            <h2 class="cta-section__title">
+              A TEMPESTADE CHEGA AOS CINEMAS
+            </h2>
+            <p class="cta-section__subtitle">
+              Uma vez na vida, você assiste a algo que não esquece. Esse é o
+              momento.
+            </p>
+            <div class="cta-section__actions">
+              <a href="#" class="btn btn--primary">GARANTA SEU INGRESSO</a>
+              <a href="#trailer" class="btn btn--ghost">ASSISTA AO TRAILER</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- /site -->
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/ScrollTrigger.min.js"></script>
+
+    <script src="js/main.js"></script>
+    <script type="module" src="js/scene.js"></script>
+  </body>
+</html>
