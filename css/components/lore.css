@@ -1,0 +1,122 @@
+.lore {
+  position: relative;
+  padding-block: clamp(60px, 8vw, 140px);
+  overflow: hidden;
+  min-height: 200vh;
+}
+
+.lore__canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.lore__canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none;
+}
+
+.lore__canvas--static {
+  display: none;
+}
+
+.lore__bg .media-bg__img {
+  mix-blend-mode: hard-light;
+  opacity: 0.11;
+  object-position: center;
+}
+
+.lore__bg .media-bg__overlay {
+  background: linear-gradient(
+    to bottom,
+    var(--bg) 0%,
+    transparent 15%,
+    transparent 85%,
+    var(--bg) 100%
+  );
+}
+
+.lore__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(48px, 7vw, 120px);
+  min-height: inherit;
+}
+
+.lore__quote {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 62px);
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--white);
+  line-height: 1.05;
+  max-width: clamp(300px, 95vw, 1000px);
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+  perspective: 1000px;
+}
+
+.lore__quote.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+.anim-word {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
+.lore__quote--left {
+  align-self: flex-start;
+  text-align: left;
+}
+
+.lore__quote--right {
+  align-self: flex-end;
+  text-align: right;
+}
+
+.lore__quote--center {
+  align-self: center;
+  text-align: center;
+  max-width: min(1610px, 95vw);
+}
+
+@media (max-width: 1023px) {
+  .lore__quote--left,
+  .lore__quote--right,
+  .lore__quote--center {
+    align-self: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .lore {
+    min-height: auto;
+    padding-block: clamp(48px, 12vw, 80px);
+  }
+
+  .lore__quote {
+    font-size: clamp(20px, 5.5vw, 28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lore__quote {
+    opacity: 1;
+    transform: none;
+  }
+}

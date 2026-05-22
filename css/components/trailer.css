@@ -1,0 +1,257 @@
+.trailer-section {
+  padding-bottom: clamp(40px, 6vw, 80px);
+  background: var(--bg);
+  position: relative;
+  z-index: 3;
+  top: -55px;
+}
+
+.trailer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  background: #0e1520;
+  cursor: pointer;
+}
+
+.trailer__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Como o arquivo de vídeo original possui bordas pretas embutidas em seus pixels (letterbox/pillarbox), */
+  /* aumentamos o zoom ligeiramente para empurrar essas bordas para fora da área visível (cortadas pelo overflow: hidden). */
+  transform: scale(1.38);
+}
+
+.trailer__ambient {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+.trailer--active .trailer__ambient {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.trailer__ambient-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: background 0.3s ease;
+}
+
+.trailer:hover .trailer__ambient-overlay {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.trailer__play {
+  position: relative;
+  z-index: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.trailer__play:hover {
+  transform: scale(1.1);
+}
+
+.trailer__play-icon {
+  width: clamp(56px, 6.5vw, 110px);
+  height: clamp(56px, 6.5vw, 110px);
+  object-fit: contain;
+  filter: brightness(1.25);
+}
+
+/* Controles customizados */
+.player {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.trailer--active.trailer--controls-visible .player,
+.trailer--active.trailer--paused .player {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.player__gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.3) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.player__body {
+  position: relative;
+  z-index: 1;
+  padding: clamp(10px, 1.5vw, 20px) clamp(16px, 2.5vw, 32px)
+    clamp(12px, 1.8vw, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player__progress {
+  position: relative;
+  height: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.player__track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: height 0.15s ease;
+}
+
+.player__progress:hover .player__track {
+  height: 5px;
+}
+
+.player__played {
+  height: 100%;
+  width: 0;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.player__seek {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.player__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.player__left,
+.player__right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.player__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.85;
+  transition:
+    opacity 0.2s ease,
+    transform 0.15s ease;
+}
+
+.player__btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.player__icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.player__icon--pause,
+.player__icon--vol-off,
+.player__icon--compress {
+  display: none;
+}
+
+.trailer--active:not(.trailer--paused) .player__icon--play {
+  display: none;
+}
+
+.trailer--active:not(.trailer--paused) .player__icon--pause {
+  display: block;
+}
+
+.trailer--muted .player__icon--vol-on {
+  display: none;
+}
+
+.trailer--muted .player__icon--vol-off {
+  display: block;
+}
+
+.trailer--fullscreen .player__icon--expand {
+  display: none;
+}
+
+.trailer--fullscreen .player__icon--compress {
+  display: block;
+}
+
+.player__vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.player__volume {
+  width: 70px;
+  height: 3px;
+  cursor: pointer;
+  accent-color: #fff;
+}
+
+.player__time {
+  font-family: var(--font-mono);
+  font-size: clamp(10px, 1vw, 13px);
+  color: rgba(255, 255, 255, 0.8);
+  white-space: nowrap;
+  padding-left: 6px;
+  user-select: none;
+}
+
+@media (max-width: 1023px) {
+  .trailer {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 767px) {
+  .trailer {
+    aspect-ratio: 9 / 5;
+  }
+}

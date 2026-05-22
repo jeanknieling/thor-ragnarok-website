@@ -1,0 +1,136 @@
+/* ==========================================================================
+  1. RESETS GLOBAIS E ACESSIBILIDADE
+========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 75px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+  2. ESTRUTURA DO CORPO (BODY)
+========================================================================== */
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+/* Trava o scroll da página quando o menu lateral mobile estiver aberto */
+body.nav-open {
+  overflow: hidden;
+}
+
+/* Elementos multimédia responsivos */
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ==========================================================================
+   3. CONTENTORES E EMBRULHOS (Aqui aplicamos o travão gigante)
+   ========================================================================== */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* 
+  CORREÇÃO PARA TELAS GIGANTES: 
+  O teu elemento .site agora controla o fade-in e também protege o vídeo do Hero.
+*/
+.site {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+
+  /* Lógica de proteção */
+  width: 100%;
+  max-width: 1670px;
+  /* O SEGREDO: O site não alarga além de 1920px, travando o zoom do vídeo */
+  margin-inline: auto;
+  /* Centraliza o site no meio de monitores gigantes (UltraWide/4K) */
+  background: var(--bg);
+  /* Garante que o fundo do site se mantém consistente */
+  position: relative;
+}
+
+/* Ativado pelo teu JS assim que o preloader termina */
+.site.site--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ==========================================================================
+   4. COMPONENTES DE FUNDO DE SITES (MEDIA-BG)
+   ========================================================================== */
+
+/* Fundo com imagem + vídeo opcional */
+.media-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.media-bg__img,
+.media-bg__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-bg__video {
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  z-index: 1;
+}
+
+/* Ativado via JS quando o vídeo terminou de carregar na memória */
+.media-bg__video--ready {
+  opacity: 1;
+}
+
+.media-bg__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}

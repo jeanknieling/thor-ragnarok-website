@@ -1,0 +1,118 @@
+/* ==========================================================================
+   SECÇÃO HERO - ESTRUTURA BASE (DESKTOP)
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  /* Mantemos o teu clamp original para telas normais e portáteis */
+  min-height: clamp(920px, 55vw, 920px);
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  width: 100%;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(180deg, #00091400 84.85%, var(--bg) 100%);
+  pointer-events: none;
+}
+
+
+
+/* Forçamos o vídeo a comportar-se bem dentro da moldura */
+.hero__bg .media-bg__img,
+.hero__bg .media-bg__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Corta as sobras sem distorcer ou amassar o vídeo */
+  object-position: top center;
+  /* Mantém o foco visual no topo e ao centro */
+}
+
+.hero__bg .media-bg__overlay {
+  background: linear-gradient(to right,
+      rgba(0, 4, 13, 0.15) 0%,
+      rgba(0, 4, 13, 0) 40%,
+      rgba(0, 4, 13, 0.65) 70%,
+      rgba(0, 4, 13, 0.9) 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: clamp(100px, 18vh, 240px);
+  padding-bottom: clamp(48px, 8vh, 80px);
+  gap: clamp(28px, 4vw, 42px);
+  width: 100%;
+}
+
+.hero__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  max-width: min(760px, 100%);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 10vw, 165px);
+  font-weight: 400;
+  line-height: 1;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  perspective: 1000px;
+}
+
+.chars-wrapper {
+  display: inline-block;
+}
+
+.anim-char {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+  text-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+}
+
+.hero__subtitle {
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 1.1vw, 18px);
+  color: var(--white-muted);
+  max-width: min(493px, 90%);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.hero__actions {
+  display: flex;
+  gap: clamp(12px, 2vw, 24px);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+     RESPONSIVIDADE & MEDIA QUERIES
+     ========================================================================== */
+
+@media (max-width: 767px) {
+  .hero {
+    min-height: clamp(650px, 55vw, 920px);
+  }
+
+  .hero__subtitle {
+    max-width: 230px;
+  }
+
+  .hero__actions .btn--ghost {
+    display: none;
+  }
+}

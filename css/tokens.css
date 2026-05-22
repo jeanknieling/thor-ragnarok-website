@@ -1,0 +1,20 @@
+:root {
+  --bg: #000914;
+  --white: rgba(255, 255, 255, 0.9);
+  --white-muted: rgba(255, 255, 255, 0.75);
+  --white-faint: rgba(255, 255, 255, 0.1);
+  --black: rgba(0, 0, 0, 0.9);
+
+  --font-display: "Impact", sans-serif;
+  --font-mono: "Roboto Mono", monospace;
+  --font-body: "Roboto", sans-serif;
+
+  --container-max: 1650px;
+  --gutter: clamp(16px, 5vw, 160px);
+  --header-h: clamp(64px, 10vh, 88px);
+  --ease-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --bp-tablet: 1023px;
+  --bp-mobile: 767px;
+  --bp-small: 479px;
+}
